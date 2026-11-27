@@ -378,7 +378,7 @@ function update(dt){if(K.Aim&&!P.dead&&!aimFp){aimFp=1;fpPrev=fp;fp=true}else if
   if(K.Space){P.lad=null;P.lcd=.5;P.vy=3;P.air=1;[P.x,P.z]=hit(ld.cx+ld.nx*.9,ld.cz+ld.nz*.9,.5)}
   else if(P.y>=ld.top){P.y=ld.top;P.lad=null;P.lcd=.6;P.x=ld.ix;P.z=ld.iz}
   else if(P.y<=ld.g){P.y=ld.g;P.lad=null;P.lcd=.6;P.x=ld.ex;P.z=ld.ez}}
- if(dx||dz){const l=Math.hypot(dx,dz),s=(sn?1.7:K.Aim?2.2:3.6)*dt;dx=dx/l*s;dz=dz/l*s;P.a=Math.atan2(dx,dz);[P.x,P.z]=hit(P.x+dx,P.z+dz,.5,SY);P.mv=1;fd+=s;if(fd>.9){fd=0;nz(.07,sn?.04:.1,900);const d=new THREE.Object3D();d.position.set(P.x,PY()+.06,P.z);d.rotation.y=P.a;d.updateMatrix();FP.setMatrixAt(fi%160,d.matrix);fi++;FP.count=Math.min(160,fi);FP.instanceMatrix.needsUpdate=true}}
+ if(dx||dz){const l=Math.hypot(dx,dz),s=(sn?1.7:K.Aim?2.2:3.6)*1.2*dt;dx=dx/l*s;dz=dz/l*s;P.a=Math.atan2(dx,dz);[P.x,P.z]=hit(P.x+dx,P.z+dz,.5,SY);P.mv=1;fd+=s;if(fd>.9){fd=0;nz(.07,sn?.04:.1,900);const d=new THREE.Object3D();d.position.set(P.x,PY()+.06,P.z);d.rotation.y=P.a;d.updateMatrix();FP.setMatrixAt(fi%160,d.matrix);fi++;FP.count=Math.min(160,fi);FP.instanceMatrix.needsUpdate=true}}
  if(netGame){P.a=yaw+Math.PI;fire();return}
  if(K.Aim||K.Fire)P.a=yaw+Math.PI;fire();
  let seen=false;P.hurt=Math.max(0,P.hurt-dt);
