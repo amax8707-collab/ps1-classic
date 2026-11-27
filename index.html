@@ -37,7 +37,7 @@ const HS=[
 HS.forEach(h=>h.r=Math.hypot(h.w,h.d)/2+2);const HOUSES=[];
 const hSnow=(x,z)=>{const e=Math.max(Math.abs(x),Math.abs(z)),f=Math.max(...HS.map(h=>1-ss(h.r,h.r+5,Math.hypot(x-h.x,z-h.z))),1-ss(16,24,Math.hypot(x-BASE.x,z-BASE.z)),1-ss(6,12,Math.hypot(x-SPAWN.x,z-SPAWN.z)));return mix(vn(x/14+3,z/14+3)*3.2+vn(x/5,z/5)*.6,0,f)+ss(44,50,e)*22};
 const hMel=(x,z)=>{const e=Math.max(Math.abs(x),Math.abs(z)),st=u=>{const f=Math.floor(u);return(f+ss(.35,.65,u-f))*2.4};return ss(54,96,-z)*(15+vn(x/22+4,z/22)*5)+ss(54,96,z)*(12+vn(x/18+8,z/18)*4)+st(ss(66,98,-x)*5.5)*1.1+vn(x/6,z/6)*.25*ss(60,80,e)+ss(HW-6,HW,e)*22};
-const hRuin=(x,z)=>{const e=Math.max(Math.abs(x),Math.abs(z));let h=vn(x/10+5,z/10+5)*1.4+vn(x/4,z/4)*.3;for(const[cx,cz,r]of[[-10,-30,5],[12,10,5.5],[-22,-12,4.5],[34,-10,5],[5,24,4.5],[-34,-22,5],[-4,-14,3.5],[24,-34,4]]){const d=Math.hypot(x-cx,z-cz);h+=-1.6*(1-ss(0,r,d))+.4*ss(r*.7,r,d)*(1-ss(r,r*1.5,d))}return h+ss(44,50,e)*22};
+const hRuin=(x,z)=>{const e=Math.max(Math.abs(x),Math.abs(z));let h=vn(x/10+5,z/10+5)*1.4+vn(x/4,z/4)*.3;for(const[cx,cz,r]of[[-10,-30,5],[12,10,5.5],[-22,-12,4.5],[34,-10,5],[5,24,4.5],[-34,-22,5],[-4,-14,3.5],[24,-34,4]]){const d=Math.hypot(x-cx,z-cz);h+=-1.6*(1-ss(0,r,d))+.4*ss(r*.7,r,d)*(1-ss(r,r*1.5,d))}for(const[hx,hz,r,hh]of [[-14,-6,10,4.5],[16,-8,9,5],[-2,14,8,3.5],[-38,-14,8,4],[-28,36,8,4],[4,-32,8,4.5],[28,26,8,3.5]]){const d=Math.hypot(x-hx,z-hz);h+=hh*(1-ss(0,r,d))*(.85+.3*vn(x/8+9,z/8+2))}return h+ss(44,50,e)*22};
 const TFM={},hAt0=(x,z)=>MAPK=='inf'?hSnow(x,z):MAPK=='mel'?hMel(x,z):MAPK=='ruin'?hRuin(x,z):ss(44,50,Math.max(Math.abs(x),Math.abs(z)))*22;
 const hAt=(x,z)=>{let h=hAt0(x,z);const T=TFM[MAPK];if(T)for(const r of T){const dx=Math.max(r[0]-x,0,x-r[1]),dz=Math.max(r[2]-z,0,z-r[3]),d=Math.hypot(dx,dz);if(d<3.5)h+=(r[4]-h)*(1-ss(0,3.5,d))}return h};
 const DK={fwd:'KeyW',back:'KeyS',left:'KeyA',right:'KeyD',sneak:'CapsLock',sprint:'ShiftLeft',reload:'KeyR',view:'KeyZ',night:'KeyN'},RES=[48,90,24,15],DFs=[{see:.75,det:.7,dmg:.6,sc:.75},{see:1,det:1,dmg:1,sc:1},{see:1.3,det:1.4,dmg:1.5,sc:1.5}];let PU=[],kmap={};const DEF={sens:1,post:true,crt:true,night:false,vol:1,fov:62,inv:false,fogm:1,snow:true,map:true,fps:false,fpv:false,bright:1,smooth:false,diff:1,res:0,skin:0,keys:{...DK}},S={...DEF,name:'Snake'};try{Object.assign(S,JSON.parse(localStorage.ps1s||'{}'))}catch(e){}S.keys={...DK,...(S.keys||{})};BIND();
@@ -140,7 +140,7 @@ const clr=(x,z,r)=>HOUSES.every(h=>Math.abs(x-h.x)>h.w/2+r+1||Math.abs(z-h.z)>h.
  road=(x,z)=>(Math.abs(x)<49&&Math.abs(Math.abs(z)-35)<5)||(Math.abs(Math.abs(x)-44)<5&&Math.abs(z)<37)||(x>44&&Math.abs(z)<6)||(Math.abs(x)<17&&Math.abs(z)<13);
 forest(26,(x,z,r)=>Math.abs(x)<56&&Math.abs(z)<47&&!road(x,z)&&clr(x,z,r-2),false,false,1500);
 forest(260,(x,z,r)=>(Math.abs(x)>64||Math.abs(z)>54)&&!(x>58&&Math.abs(z)<10)&&clr(x,z,0),false,true,6000)}};
-BF.ruin=()=>{SPM.ruin=[[0,-40],[-14,-18],[14,-18],[-18,0],[18,0],[0,14],[-40,-4],[40,-4],[-20,24],[22,24],[0,40],[-40,34],[40,34]];MAPS.ruin=['SNOWFIELD 2','Verwüstetes Schneefeld mit Ruinen und Wracks · 100×100 m'];
+BF.ruin=()=>{SPM.ruin=[[0,-40],[-14,-18],[14,-18],[-18,0],[18,0],[0,14],[-40,-4],[40,-4],[-20,24],[22,24],[0,40],[-40,34],[40,34]];MAPS.ruin=['SNOWFIELD 2','Verwüstetes Schneefeld mit Ruinen, Wracks und mehreren Hügeln · 100×100 m'];
  const BRK=[0x6a625a,0x7a6a5a,0x5a5a60,0x70665a],RU=[[-30,-28,12,8],[28,-30,10,9],[0,-8,10,8],[-32,10,10,10],[30,12,12,8],[-10,30,9,8],[14,34,9,8]];
  const seg=(x,z,w,d,c,hh)=>{const y=hAt(x,z)-.6;box(x,y,z,w,hh+.6,d,c,true,wm(c,w,hh+.6,d));box(x,y+hh+.6,z,w+.1,.2,d+.1,0xf4f8fc,false)};
  RU.forEach(([x,z,w,d],bi)=>{const c=BRK[bi%4],wall=(px,pz,len,ax)=>{for(let o=-len/2;o<len/2-.01;o+=2){const l=Math.min(2,len/2-o),cx=ax?px+o+l/2:px,cz=ax?pz:pz+o+l/2,r=rnd();if(r<.22)continue;seg(cx,cz,ax?l:.6,ax?.6:l,c,r<.5?1+rnd()*1.2:r<.8?2.2+rnd()*1.5:4+rnd())}};
@@ -291,7 +291,7 @@ function newCode(){const a=new Uint32Array(6);crypto.getRandomValues(a);return[.
 function leave(){const L=links;links={};for(const i in L){try{L[i].c.close()}catch(e){}}sig=0;hostDC=null;if(gpc){try{gpc.destroy()}catch(e){}gpc=null}ws=null;isHost=false;myId=0;RC='';peers={};netGame=false;for(const i in pm2){scene.remove(pm2[i]);delete pm2[i]}ipbar()}
 function err(t){show(`<h1>FEHLER</h1><p>${esc(t)}</p><button onclick="menu(true)">Zurück</button>`)}
 function drop(l){if(links[l.id]!==l)return;delete links[l.id];try{l.c.close()}catch(e){}if(l.ok){relay({t:'leave',id:l.id});net({t:'leave',id:l.id})}}
-const hiM=(id,n,sk,tm)=>{const o={t:'hi',id,n};if(sk!==undefined)o.s=sk;if(tm!==undefined)o.tm=tm;return o};function hiSend(){send({t:'hi',n:S.name,s:S.skin|0,tm:S.team|0})}function setTeam(i){S.team=i|0;save();if(ws)hiSend();lobby()}function setMode(v){NMODE=v=='t'?'t':'d';send({t:'map',m:NMAP,md:NMODE});lobby()}
+const hiM=(id,n,sk,tm)=>{const o={t:'hi',id,n};if(sk!==undefined)o.s=sk;if(tm!==undefined)o.tm=tm;return o};function hiSend(){send({t:'hi',n:S.name,s:S.skin|0,tm:S.team|0})}function pickTeam(i){S.team=i|0;save();hiSend();netGame=true;mode='lobby';go()}function setTeam(i){S.team=i|0;save();if(ws)hiSend();lobby()}function setMode(v){NMODE=v=='t'?'t':'d';send({t:'map',m:NMAP,md:NMODE});lobby()}
 function hm(l,m){if(m.t=='hi'){l.n=String(m.n||'Spieler').slice(0,12);if(m.tm===0||m.tm===1)l.tm=m.tm;if(Number.isInteger(m.s)&&m.s>=0&&m.s<SKINS.length)l.sk=m.s;relay(hiM(l.id,l.n,l.sk,l.tm),l);for(const x of Object.values(links))if(x!==l&&x.n)tx(l,hiM(x.id,x.n,x.sk,x.tm));net(hiM(l.id,l.n,l.sk,l.tm))}
  else if(m.t=='p'&&[m.x,m.z,m.a].every(Number.isFinite)){const o={t:'p',id:l.id,x:m.x,z:m.z,a:m.a,h:m.h};if(Number.isFinite(m.y))o.y=m.y;relay(o,l);net(o)}
  else if((m.t=='s'&&Array.isArray(m.a)&&m.a.length<=12)||m.t=='d'||(m.t=='h'&&Number.isFinite(m.v))){m.id=l.id;relay(m,l);net(m)}}
@@ -309,14 +309,14 @@ function hostL(tries=0){if(!hasName())return nameScr('h');leave();if(typeof Peer
  pr.on('connection',c=>{if(gpc!==pr)return;
   if(Object.keys(links).length>=7){c.on('open',()=>{try{c.send({t:'full'});setTimeout(()=>c.close(),300)}catch(e){}});return}
   const id=nextId++,l=links[id]={id,c,n:'',ok:0};
-  c.on('open',()=>{l.ok=1;tx(l,{t:'id',id,host:false});tx(l,hiM(0,S.name,S.skin|0,S.team|0));tx(l,{t:'map',m:NMAP,md:NMODE});if(netGame)tx(l,{t:'start',map:NMAP});if(mode=='lobby')lobby()});
+  c.on('open',()=>{l.ok=1;tx(l,{t:'id',id,host:false});tx(l,hiM(0,S.name,S.skin|0,S.team|0));tx(l,{t:'map',m:NMAP,md:NMODE});if(netGame)tx(l,{t:'start',map:NMAP,late:1});if(mode=='lobby')lobby()});
   c.on('data',d=>{try{hm(l,d)}catch(x){}});c.on('close',()=>drop(l));c.on('error',()=>drop(l))})}
 function net(m){if(m.t=='id'){isHost=!!m.host;myId=m.id;ipbar();if(mode=='lobby')lobby()}
  else if(m.t=='hi'){const n=String(m.n).slice(0,12),sk=Number.isInteger(m.s)&&m.s>=0&&m.s<SKINS.length?m.s:undefined;if(!peers[m.id]){peers[m.id]={n,sk,tm:m.tm===1?1:0,x:0,z:0,a:0,h:100,k:0,d:0};hiSend()}else{peers[m.id].n=n;if(m.tm===0||m.tm===1)peers[m.id].tm=m.tm;if(sk!==undefined)peers[m.id].sk=sk};ipbar();if(mode=='lobby')lobby()}
  else if(m.t=='leave'){delete peers[m.id];if(pm2[m.id]){scene.remove(pm2[m.id]);delete pm2[m.id]}ipbar();if(mode=='lobby')lobby()}
  else if(m.t=='full'){leave();err('Raum ist voll (max. 8 Spieler).')}
  else if(m.t=='map'){if(m.md=='t'||m.md=='d')NMODE=m.md;if(ONL.includes(m.m))NMAP=m.m;if(mode=='lobby')lobby()}
- else if(m.t=='start'){if(ONL.includes(m.map))NMAP=m.map;netGame=true;mode='lobby';go()}
+ else if(m.t=='start'){if(ONL.includes(m.map))NMAP=m.map;if(m.late&&NMODE=='t'&&!netGame){mode='pick';show('<h1>TEAM WÄHLEN</h1><small>Das Team-Deathmatch läuft bereits. Wähle dein Team:</small><button onclick="pickTeam(0)" style="color:#f66;border-color:#f66">Rot</button><button onclick="pickTeam(1)" style="color:#6af;border-color:#6af">Blau</button>');return}netGame=true;mode='lobby';go()}
  else if(m.t=='p'&&peers[m.id]&&[m.x,m.z,m.a].every(Number.isFinite))Object.assign(peers[m.id],{x:m.x,z:m.z,a:m.a,h:Number.isFinite(m.h)?m.h:100,y:Number.isFinite(m.y)?m.y:undefined})
  else if(m.t=='s'&&peers[m.id])onShot(m)
  else if(m.t=='h'&&peers[m.id])onHit(m)
