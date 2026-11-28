@@ -16,6 +16,27 @@ canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelate
 #ui.lobby{display:block;overflow:hidden;padding:0;background:linear-gradient(180deg,rgba(0,8,7,.66),rgba(0,8,7,.04) 50%,rgba(0,8,7,.72))}
 #ui.lobby h1{position:absolute;top:3%;left:3%;text-align:left;font-size:clamp(12px,2vw,18px);letter-spacing:.08em}
 #ui.lobby~#ipb{display:none}
+#ui.main-menu{align-items:stretch;justify-content:flex-start;gap:clamp(10px,2vh,18px);padding:clamp(12px,3vw,28px);background:radial-gradient(ellipse at 50% 35%,rgba(22,62,39,.7),rgba(1,8,5,.95) 75%)}
+#ui.main-menu>:first-child{margin-top:0}
+#ui.main-menu>:last-child{margin-bottom:0}
+#ui.main-menu .menu-header{flex:0 0 auto;width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+#ui.main-menu .menu-brand{text-align:left}
+#ui.main-menu .menu-brand h1{font-size:clamp(24px,5vw,42px);letter-spacing:.16em}
+#ui.main-menu .menu-tools{display:flex;justify-content:flex-end;align-items:center;gap:8px}
+#ui.main-menu .menu-tools button{padding:8px 12px;font-size:clamp(10px,1.3vw,14px)}
+#ui.main-menu .menu-settings{border-color:var(--g);box-shadow:0 0 12px #7cfc9a33}
+#ui.main-menu .menu-panel{width:min(100%,620px);margin:0 auto;padding:clamp(14px,3vw,24px);display:flex;flex-direction:column;align-items:stretch;gap:12px;background:rgba(4,17,11,.88);border:1px solid #7cfc9a66;box-shadow:0 12px 40px #0009}
+#ui.main-menu .menu-profile{display:flex;flex-direction:column;gap:8px}
+#ui.main-menu .menu-profile .r{width:100%;min-width:0}
+#ui.main-menu .menu-profile input{width:min(62%,280px)}
+#ui.main-menu .menu-panel>button{width:100%}
+#ui.main-menu .menu-mission{display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:12px;border:1px solid #7cfc9a55;background:rgba(8,31,18,.75)}
+#ui.main-menu .menu-mission>small:first-child{color:var(--g);letter-spacing:.12em}
+#ui.main-menu .menu-primary{font-weight:bold;letter-spacing:.08em;background:#173d26}
+#ui.main-menu .menu-online{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#ui.main-menu .menu-online button:last-child{grid-column:1/-1}
+#ui.main-menu .menu-help{text-align:center;line-height:1.55}
+@media(max-width:540px){#ui.main-menu{gap:9px;padding:12px}#ui.main-menu .menu-header{position:relative;display:block;min-height:32px}#ui.main-menu .menu-brand{width:auto;padding-right:130px}#ui.main-menu .menu-brand h1{font-size:clamp(22px,7vw,32px)}#ui.main-menu .menu-brand small{display:none}#ui.main-menu .menu-tools{position:absolute;top:0;right:0;width:auto}#ui.main-menu .menu-tools button{padding:7px 9px;font-size:11px}#ui.main-menu .menu-tools button:first-child{display:none}#ui.main-menu .menu-panel{gap:9px;padding:14px}#ui.main-menu .menu-online{grid-template-columns:1fr}#ui.main-menu .menu-online button:last-child{grid-column:auto}#ui.main-menu .menu-help{font-size:10px}}
 #lobbyRoom{position:absolute;top:12%;left:3%;width:32%;max-width:220px;text-align:left;line-height:1.2}
 #lobbyRoom small{font-size:clamp(9px,1.2vw,12px)}
 #lobbyRoom>b{font-size:clamp(14px,2.4vw,24px)!important;letter-spacing:.15em!important}
@@ -387,11 +408,17 @@ function joinC(inviteCode){hasName();const input=$('rc'),code=(inviteCode||((inp
   c.on('data',d=>{try{net(d)}catch(x){}});
   c.on('close',()=>{if(hostDC===c){leave();menu(true);say('Verbindung getrennt',4)}});
   c.on('error',()=>fail('Verbindungsfehler'))})}
-function solo(k){MK=k||'inf';leave();go()}
-function menu(first){if(first)mode='menu';show(`<h1>SNOWFIELD</h1><small>100 × 100 m · Infiltration im Schnee · PS1-Look</small>
-<div class=r>Name<input value="${esc(S.name||'Snake')}" maxlength=12 oninput="S.name=this.value;save()"></div>${skinRow()}
-<button id="accountButton" onclick="openAccount('${first?'menu':'pause'}')">${accountUser?'FREUNDE · '+esc(accountUsername()):'KONTO / FREUNDE'}</button><button onclick="settings(${first?1:0})">EINSTELLUNGEN</button><button onclick="fs()">VOLLBILD</button>`+
-(first?`<button onclick="solo('inf')">1 · INFILTRATION</button><small>Stützpunkt erreichen, Wachen meiden${bt('inf')}</small><button onclick="solo('kas')">2 · KASERNE EROBERN</button><small>Mauer-Kaserne stürmen, Flagge halten${bt('kas')}</small><button onclick="solo('lz')">3 · LANDEPLATZ SICHERN</button><small>Kampfjet-Basis räumen, Heli rufen${bt('lz')}</small><button onclick="solo('ham')">4 · KASERNE HAMMELBURG</button><small>Infanterieschule stürmen, Flagge halten${bt('ham')}</small><button onclick="solo('erf')">5 · KASERNE ERFURT</button><small>Festungs-Kaserne erobern, Innenhof halten${bt('erf')}</small><button onclick="hostL()">LOBBY HOSTEN</button><button onclick="joinS()">LOBBY BEITRETEN</button><button onclick=\"scores()\">HIGHSCORES</button>`:`<button onclick="go()">WEITER</button>${netGame?"":`<button onclick="mode=0;go()">NEUSTART</button>`}<button onclick="leave();menu(true)">HAUPTMENÜ</button>`)+`<small>WASD laufen · Feststelltaste ducken · Shift/Doppel-W sprinten · Q Karte · Maus/←→ Kamera · Esc Vollbild · F1 Einstellungen<br>Leertaste springen · R nachladen · G Granate · E interagieren · 1-4 Waffen · Z Ansicht · N Tag/Nacht · Tab Punktetabelle<br>Kopfschuss = 3× Schaden · Online: Maus schießen, Rechtsklick zielen</small>`)}
+function solo(){MK='inf';leave();go()}
+function menu(first){
+ if(first)mode='menu';
+ show(`<div class="menu-header"><div class="menu-brand"><h1>SNOWFIELD</h1><small>100 × 100 m · Infiltration im Schnee · PS1-Look</small></div><div class="menu-tools"><button onclick="fs()">VOLLBILD</button><button class="menu-settings" onclick="settings(${first?1:0})">⚙ EINSTELLUNGEN</button></div></div>
+ <div class="menu-panel"><div class="menu-profile"><div class=r>Name<input value="${esc(S.name||'Snake')}" maxlength=12 oninput="S.name=this.value;save()"></div>${skinRow()}</div>
+ <button id="accountButton" onclick="openAccount('${first?'menu':'pause'}')">${accountUser?'FREUNDE · '+esc(accountUsername()):'KONTO / FREUNDE'}</button>
+ ${first?`<div class="menu-mission"><small>SOLO-MISSION · 1</small><button class="menu-primary" onclick="solo()">INFILTRATION STARTEN</button><small>Erreiche den Stützpunkt im Norden und meide die Wachen.</small></div>
+ <div class="menu-online"><button onclick="hostL()">LOBBY HOSTEN</button><button onclick="joinS()">LOBBY BEITRETEN</button><button onclick="scores()">HIGHSCORES</button></div>`:`<button class="menu-primary" onclick="go()">WEITER</button>${netGame?"":`<button onclick="mode=0;go()">NEUSTART</button>`}<button onclick="leave();menu(true)">HAUPTMENÜ</button>`}
+ <small class="menu-help">WASD laufen · Feststelltaste ducken · Shift/Doppel-W sprinten · Q Karte · Maus/←→ Kamera · Esc Vollbild · F1 Einstellungen<br>Leertaste springen · R nachladen · G Granate · E interagieren · 1-4 Waffen · Z Ansicht · N Tag/Nacht · Tab Punktetabelle<br>Kopfschuss = 3× Schaden · Online: Maus schießen, Rechtsklick zielen</small></div>`);
+ U.className='main-menu';
+}
 const accountConfigured=()=>!!(window.supabase&&/^https:\/\/[^/]+\.supabase\.co$/.test(SB_URL)&&!SB_URL.includes('YOUR_')&&SB_ANON_KEY.length>30&&!SB_ANON_KEY.includes('YOUR_'));
 function accountUsername(){return accountUser&&accountUser.user_metadata&&accountUser.user_metadata.username||S.name}
 function updateAccountButton(){const b=$('accountButton');if(b)b.textContent=accountUser?'FREUNDE · '+accountUsername():'KONTO / FREUNDE'}
@@ -476,7 +503,7 @@ function update(dt){if(K.Aim&&!P.dead&&!aimFp){aimFp=1;fpPrev=fp;fp=true}else if
  else{P.det=0;if(P.rg>0)P.rg-=dt;else if(P.hp<100)P.hp=Math.min(100,P.hp+5*dt);runM(dt);if(P.hp<=0)fin(false,'Du wurdest ausgeschaltet.')}}
 function throwS(){if(netGame||P.dead||P.st<=0)return;P.st--;const fa=yaw+Math.PI,[x,z]=hit(P.x+Math.sin(fa)*13,P.z+Math.cos(fa)*13,.3);say('Stein geworfen ('+P.st+' übrig)',1.5);setTimeout(()=>{nz(.12,.25,1800);for(const g of G)if(g.on&&!(g.dead>0)&&Math.hypot(g.x-x,g.z-z)<26)g.inv={x,z,t:5}},500)}
 function take(){if(netGame||P.dead)return;for(const g of G){if(!g.on||g.dead>0||Math.hypot(g.x-P.x,g.z-P.z)>2.2)continue;const back=Math.abs(((Math.atan2(g.z-P.z,g.x-P.x)-g.a+Math.PI*3)%TAU)-Math.PI)<1.1;if(MI.st&&!back){say('Nur von hinten!',1.5);continue}g.dead=MI.st?12:1e9;snd(200,.08,.1,'triangle');nz(.08,.12,600);say('Lautlos ausgeschaltet',2);return}}
-function scores(){const H=S.hl||{},t=['inf','kas','lz','ham','erf'].map(k=>[0,1,2].map(i=>{const l=H[k+i]||[];return l.length?`<small><b style="min-width:0">${MAPS[k][0]} · ${['Leicht','Normal','Schwer'][i]}</b></small>`+l.map((e,j)=>`<small>${j+1}. ${esc(e.n)} · ${e.p} P. · ${fmtT(e.t)}</small>`).join(''):''}).join('')).join('');show('<h1>HIGHSCORES</h1>'+(t||'<small>Noch keine Einträge</small>')+'<button onclick="menu(true)">ZURÜCK</button>')}
+function scores(){const H=S.hl||{},k='inf',t=[0,1,2].map(i=>{const l=H[k+i]||[];return l.length?`<small><b style="min-width:0">${MAPS[k][0]} · ${['Leicht','Normal','Schwer'][i]}</b></small>`+l.map((e,j)=>`<small>${j+1}. ${esc(e.n)} · ${e.p} P. · ${fmtT(e.t)}</small>`).join(''):''}).join('');show('<h1>HIGHSCORES</h1>'+(t||'<small>Noch keine Einträge</small>')+'<button onclick="menu(true)">ZURÜCK</button>')}
 function fin(ok,t){if(mode!='play')return;mode='menu';try{document.exitPointerLock()}catch(e){}show(`<h1>${ok?'MISSION ERFÜLLT':'MISSION GESCHEITERT'}</h1><p>${t}${ok&&!netGame?rec():''}</p><button onclick="go()">NOCHMAL</button><button onclick="menu(true)">ZURÜCK</button>`)}
 function gmove(g,an,sp){for(const o of[0,.9,-.9,1.8,-1.8]){const a=an+o,r=hit(g.x+Math.cos(a)*sp,g.z+Math.sin(a)*sp,.6);if(Math.hypot(r[0]-g.x,r[1]-g.z)>sp*.7){g.x=r[0];g.z=r[1];return 1}}return 0}
 function gShoot(g,dp,sn){tracer(g.x,g.z,P.x+(Math.random()-.5)*1.2,P.z+(Math.random()-.5)*1.2);snd(380,.1,.1*Math.max(0,1-dp/70),'square');if(P.inv>0)return;if(Math.random()<Math.max(.12,.72-dp*.024)*(sn?.7:1)){P.hp-=9*DFs[S.diff].dmg;P.hurt=.35;P.rg=5;snd(120,.15,.2,'sawtooth')}}
